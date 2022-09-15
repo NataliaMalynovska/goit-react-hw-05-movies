@@ -1,10 +1,14 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+
+// eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5YTQzNzI2MzM5YzQyMzZmYjA4NTRhNWVmN2UyMjhjOCIsInN1YiI6IjYzMjJkMTNjMjk3MzM4MDA3YmI4NmRkNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CtZ6ogsqYjNi9gRNm8OUu5kac4t9pMfORY40l8JjSXs
+// https://api.themoviedb.org/3/movie/550?api_key=9a43726339c4236fb0854a5ef7e228c8
+
 export const fetchPhotos = async (query, page) => {
   try {
-    axios.defaults.baseURL = `https://pixabay.com/api/`;
-    const API_KEY = '29702689-0ddf3ae605917d12f22a62166';
+    axios.defaults.baseURL = `https://api.themoviedb.org/`;
+    const API_KEY = '9a43726339c4236fb0854a5ef7e228c8';
     const searchParams = new URLSearchParams({
       key: API_KEY,
       q: query,
