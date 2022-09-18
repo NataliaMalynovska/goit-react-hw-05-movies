@@ -1,83 +1,34 @@
-import { useState, useEffect } from 'react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Route, Routes } from 'react-router-dom';
+import { SharedLayout } from './SharedLayout/SharedLayout';
 import { GlobalStyle } from './GlobalStyle';
-import { Box } from './Box';
-import { fetchPhotos } from '../services/api';
-import Searchbar from './Searchbar';
-import ImageGallery from './ImageGallery';
-import Loader from './Loader';
-import Button from './Button';
+import { lazy, Suspense } from 'react';
+import Loader from './Loader/Loader';
 
-const App = () => {
-  const [page, setPage] = useState(1);
-  const [query, setQuery] = useState('');
-  const [hits, setHits] = useState([]);
-  const [status, setStatus] = useState('idle');
+const Home = lazy(() => import('../pages/Home'));
+const Movies = lazy(() => import('../pages/Movies'));
+const MovieDetails = lazy(() => import('../pages/MovieDetails'));
+const Cast = lazy(() => import('components/Cast'));
+const Reviews = lazy(() => import('components/Reviews'));
 
-  useEffect(() => {
-    if (!query) {
-      return;
-    }
-    const fetchData = async () => {
-      try {
-        setStatus('pending');
-        const data = await fetchPhotos(query, page);
-        const { hits, total } = data;
-
-        if (total === 0 || (hits.length === 0 && hits.totalHits > 0)) {
-          setStatus('idle');
-          return;
-        }
-        setStatus('resolved');
-        setHits(prevHits => [...prevHits, ...hits]);
-        return;
-      } catch (error) {
-        setStatus('rejected');
-      }
-    };
-    fetchData();
-  }, [page, query]);
-
-  const handleFormSubmit = query => {
-    setQuery(query);
-    setPage(1);
-    setHits([]);
-    setStatus('idle');
-  };
-
-  const loadMore = () => {
-    setPage(prevPage => prevPage + 1);
-  };
-
+export const App = () => {
   return (
-    <Box
-      as="main"
-      display="grid"
-      grid-template-columns="1fr"
-      gridGap="16px"
-      pb="24p"
-    >
+    <>
       <GlobalStyle />
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <Searchbar onSubmit={handleFormSubmit} />
-      {hits.length > 0 && <ImageGallery hits={hits} />}
-      {status === 'pending' && <Loader />}
-      {hits.length >= 12 && hits.length % 12 === 0 && (
-        <Button onClick={loadMore} />
-      )}
-    </Box>
+      <Suspense fullback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<SharedLayout />}>
+            <Route index element={<Home />}></Route>
+            <Route path="movies" element={<Movies />}></Route>
+
+            <Route path="movies/:movieId" element={<MovieDetails />}>
+              {/* <Route path="videos" element={<Trailer />}></Route> */}
+              <Route path="credit" element={<Cast />}></Route>
+              <Route path="reviews" element={<Reviews />}></Route>
+            </Route>
+            {/* <Route path="*" element={<NotFound />} /> */}
+          </Route>
+        </Routes>
+      </Suspense>
+    </>
   );
 };
-
-export default App;

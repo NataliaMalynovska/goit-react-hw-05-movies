@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { ImSearch } from 'react-icons/im';
-import { Box } from '../Box';
+
 import {
   SearchbarBox,
   SearchForm,
@@ -10,13 +10,12 @@ import {
   SearchFormInput,
 } from './Searchbar.styled';
 
-const Searchbar = ({ onSubmit }) => {
+export const Searchbar = ({ onSubmit }) => {
   const [query, setQuery] = useState('');
 
   const handleNameChange = event => {
     setQuery(event.currentTarget.value.toLowerCase());
   };
-
   const handleSubmit = event => {
     event.preventDefault();
     if (query.trim() === '') {
@@ -30,28 +29,25 @@ const Searchbar = ({ onSubmit }) => {
   };
 
   return (
-    <Box p="16px">
-      <SearchbarBox>
-        <SearchForm onSubmit={handleSubmit}>
-          <SearchFormButton type="submit">
-            <ImSearch />
-          </SearchFormButton>
+    <SearchbarBox>
+      <SearchForm onSubmit={handleSubmit}>
+        <SearchFormButton type="submit">
+          <ImSearch />
+        </SearchFormButton>
 
-          <SearchFormInput
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            value={query}
-            onChange={handleNameChange}
-          />
-        </SearchForm>
-      </SearchbarBox>
-    </Box>
+        <SearchFormInput
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search movies"
+          value={query}
+          onChange={handleNameChange}
+        />
+      </SearchForm>
+    </SearchbarBox>
   );
 };
 
 Searchbar.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
-export default Searchbar;

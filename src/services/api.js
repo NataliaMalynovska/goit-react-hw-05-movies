@@ -1,37 +1,79 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
+import { API_KEY } from '../components/Constant/Constant';
 
+axios.defaults.baseURL = `https://api.themoviedb.org/3/`;
 
-// eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5YTQzNzI2MzM5YzQyMzZmYjA4NTRhNWVmN2UyMjhjOCIsInN1YiI6IjYzMjJkMTNjMjk3MzM4MDA3YmI4NmRkNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CtZ6ogsqYjNi9gRNm8OUu5kac4t9pMfORY40l8JjSXs
-// https://api.themoviedb.org/3/movie/550?api_key=9a43726339c4236fb0854a5ef7e228c8
-
-export const fetchPhotos = async (query, page) => {
+export const fetchTrendingMovies = async () => {
   try {
-    axios.defaults.baseURL = `https://api.themoviedb.org/`;
-    const API_KEY = '9a43726339c4236fb0854a5ef7e228c8';
-    const searchParams = new URLSearchParams({
-      key: API_KEY,
-      q: query,
-      image_type: 'photo',
-      orientation: 'horizontal',
-      safesearch: true,
-      page: page,
-      per_page: 12,
-    });
-    const response = await axios.get(`/?${searchParams}`);
-    const responseTotalHits = response.data.totalHits;
+    const response = await axios.get(`/trending/movie/day?api_key=${API_KEY}`);
+    return response.data.results;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-    if (responseTotalHits === 0) {
-      toast.error(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
-      return;
-    }
-    if (responseTotalHits <= 12) {
-      toast.info(
-        `Sorry, there are only ${responseTotalHits} images for your search`
-      );
-    }
+export const fetchSearchMovies = async query => {
+  try {
+    const response = await axios.get('search/movie', {
+      params: {
+        api_key: API_KEY,
+        query: query,
+        language: 'en - US',
+        page: 1,
+        include_adult: false,
+      },
+    });
+
+    // const total = response.data.total_results;
+    // if (total === 0) {
+    //     toast.error(
+    //       'Sorry, there are no movies matching your search query. Please try again.'
+    //     );
+    //       }
+    return response.data.results;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchMovieById = async movieId => {
+  try {
+    const response = await axios.get(
+      `movie/${movieId}?api_key=${API_KEY}&language=en-US`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchMovieCast = async movieId => {
+  try {
+    const response = await axios.get(
+      `movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`
+    );
+    return response.data.cast;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchMovieReviews = async movieId => {
+  try {
+    const response = await axios.get(
+      `movie/${movieId}/reviews?api_key=${API_KEY}&language=en-US&page=1`
+    );
+    return response.data.results;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const fetchMovieTrailer = async movieId => {
+  try {
+    const response = await axios.get(
+      `movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`
+    );
     return response.data;
   } catch (error) {
     console.log(error);

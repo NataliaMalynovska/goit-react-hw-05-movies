@@ -23,11 +23,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+
 }
 
 img {
   display: block;
   max-width: 100%;
   height: auto;
+}
+h1, h2, h3, h4, p {
+  margin: 0;
+}
+a {
+  text-decoration: none;
+}
+ul {
+  list-style: none;
 }
 `;
