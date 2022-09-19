@@ -9,7 +9,7 @@ export const SharedLayout = () => {
     <Container>
       <Header>
         <nav>
-          <Link to="/" state={{ from: location }}>
+          <Link end to="/" state={{ from: location }}>
             Home
           </Link>
           <Link to="/movies" state={{ from: location }}>
