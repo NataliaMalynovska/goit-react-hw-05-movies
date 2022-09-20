@@ -24,4 +24,3 @@ export const SharedLayout = () => {
   );
 };
 
-// import { Header, Navigation, Link } from './SharedLayout.styled';

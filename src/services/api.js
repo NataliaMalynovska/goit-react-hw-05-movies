@@ -74,7 +74,7 @@ export const fetchMovieTrailer = async movieId => {
     const response = await axios.get(
       `movie/${movieId}/videos?api_key=${API_KEY}&language=en-US`
     );
-    return response.data;
+    return response.data.results;
   } catch (error) {
     console.log(error);
   }

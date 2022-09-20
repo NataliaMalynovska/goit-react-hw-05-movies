@@ -14,13 +14,11 @@ const Cast = () => {
       try {
         const castInfo = await fetchMovieCast(movieId);
         setCast(castInfo);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     fetchCast();
   }, [movieId]);
-
+  console.log(cast);
   return (
     <>
       <Box mt="16px" mb="26px">
@@ -35,9 +33,7 @@ const Cast = () => {
                       alt={name}
                     />
                     <CastName>{name}</CastName>
-                    <span>
-                      Character: {character ? character : 'No information'}
-                    </span>
+                    <p>Character: {character ? character : 'No information'}</p>
                   </CastWrapper>
                 </li>
               );

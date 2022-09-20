@@ -68,9 +68,9 @@ const MovieDetails = () => {
           </Container>
           <Container>
             <InfoTitle>Additional information</InfoTitle>
-            {/* <StyledLink to="videos" state={{ from: backLinkHref }}>
+            <StyledLink to="videos" state={{ from: backLinkHref }}>
               Trailer
-            </StyledLink> */}
+            </StyledLink>
             <StyledLink to="credit" state={{ from: backLinkHref }}>
               Cast
             </StyledLink>

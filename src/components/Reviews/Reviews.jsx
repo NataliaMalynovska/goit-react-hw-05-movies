@@ -1,7 +1,7 @@
-import { Box } from 'components/Box';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovieReviews } from '../../services/api';
+import { Box } from 'components/Box';
 import { Item, Author, ReviewContent } from './Reviews.styled';
 
 const Reviews = () => {
@@ -19,7 +19,7 @@ const Reviews = () => {
     }
     fetchReviews();
   }, [movieId]);
-  console.log(reviews);
+
   return (
     <>
       <Box mt="16px" mb="26px">
